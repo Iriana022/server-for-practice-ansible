@@ -1,0 +1,8 @@
+---
+- name: Test de configuration sur le serveur cible
+  hosts: servers
+  become: true
+
+  tasks:
+    - name: Créer un dossier de test sur la cible
+...
