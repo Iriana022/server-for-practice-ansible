@@ -1,0 +1,35 @@
+---
+- name: Exercice TP IA
+  hosts: servers
+  become: true
+  
+  tasks:
+    - name: Créer un dossier de test pour la TP
+      ansible.builtin.file:
+        state: directory
+        mode: '0755'
+        path: /opt/tp_ansible
+    
+    - name: Créer un fichier
+      ansible.builtin.copy:
+        content: "Hello world !"
+        dest: /opt/tp_ansible/bienvenue.txt
+
+    - name: Créer un groupe
+      ansible.builtin.group:
+        name: devops
+        state: present
+
+    - name: créer un utilisateur
+      ansible.builtin.user:
+        name: deploy
+        state: present
+        group: devops
+
+    - name: Attribuer un dossier a un utilisateurs
+      ansible.builtin.file:
+        state: directory
+        path: /opt/tp_ansible
+        mode: '0640'
+        owner: deploy
+        group: devops

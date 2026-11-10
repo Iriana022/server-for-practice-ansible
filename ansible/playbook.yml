@@ -5,4 +5,12 @@
 
   tasks:
     - name: Créer un dossier de test sur la cible
+      ansible.builtin.file:
+        path: /var/www/test_ansible
+        state: directory
+        mode: '0755'
+    - name: Créer un fichier de notification
+      ansible.builtin.copy:
+        content: "Déployé avec succès par Ansible"
+        dest: /var/www/test_ansible/info.txt
 ...
