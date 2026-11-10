@@ -1,6 +1,11 @@
 ---
 - name: Exercice TP IA
   hosts: servers
+  vars:
+    app_name: "JS SaaS B2B"
+    app_host: "{{ ansible_facts['hostname'] }}"
+    app_dist: "{{ ansible_facts['distribution'] }}"
+    app_version: "{{ ansible_facts['distribution_version'] }}"
   become: true
   
   tasks:
@@ -33,3 +38,13 @@
         mode: '0640'
         owner: deploy
         group: devops
+
+    - name: installation de git dans le serveut
+      ansible.builtin.apt:
+        name: git
+        state: present
+
+    - name: Generer info sur le serveur cible
+      ansible.builtin.template:
+        src: templates/info.txt.j2
+        dest: /opt/tp_ansible/info.txt
