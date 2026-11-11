@@ -48,3 +48,19 @@
       ansible.builtin.template:
         src: templates/info.txt.j2
         dest: /opt/tp_ansible/info.txt
+
+    - name: Cloner un dossier distant
+      ansible.builtin.git:
+        dest: /opt/tp_ansible/mon_app
+        repo: 'https://github.com/Iriana022/Odoo-mini_fleet.git'
+        key_file: C:\Users\stagiaire.dev\.ssh\id_rsa
+
+    - name: Créer des utilisateurs si l'OS est famille debian
+      ansible.builtin.user:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - user1
+        - user2
+        - user3
+      when: ansible_facts['os_family'] == "Debian"
