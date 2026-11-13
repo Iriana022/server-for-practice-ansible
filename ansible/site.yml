@@ -39,15 +39,19 @@
         owner: deploy
         group: devops
 
-    - name: installation de git dans le serveut
+    - name: installation outils
       ansible.builtin.apt:
-        name: git
+        name: "{{ item }}"
         state: present
+      loop:
+        - git
+        - vim
 
     - name: Generer info sur le serveur cible
       ansible.builtin.template:
         src: templates/info.txt.j2
         dest: /opt/tp_ansible/info.txt
+      notify: Afficher message debug
 
     - name: Cloner un dossier distant
       ansible.builtin.git:
@@ -64,3 +68,8 @@
         - user2
         - user3
       when: ansible_facts['os_family'] == "Debian"
+
+  handlers:
+    - name: Afficher message debug
+      ansible.builtin.debug:
+        msg: "Le fichier info.txt a été mise à jour avec succès."
